@@ -33,8 +33,7 @@
     }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
     .nav-logo .logo-icon {
-      width: 38px; height: 38px;
-      background: none;
+      width: 38px; height: 38px; background: none;
       border-radius: 8px; display: flex; align-items: center; justify-content: center;
       overflow: hidden;
     }
@@ -113,12 +112,82 @@
     .info-label { font-size: 0.75rem; color: var(--purple); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; }
     .info-value { font-size: 0.9rem; color: var(--text-muted); }
 
+    /* ── LIGHT THEME ── */
+    body.light-theme {
+      --bg: #f2f2f7; --bg2: #e8e8ed;
+      --card: #ffffff; --card-border: rgba(0,0,0,0.08);
+      --text: #1c1c1e; --text-muted: #48484a;
+      --white: #1c1c1e; --gold: #b08000; --gold-light: #c8960a;
+      --purple: #6A0DAD;
+    }
+    body.light-theme { background: #f2f2f7; color: #1c1c1e; }
+    body.light-theme nav {
+      background: rgba(242,242,247,0.95) !important;
+      border-bottom-color: rgba(0,0,0,0.08) !important;
+    }
+    body.light-theme .nav-logo span {
+      background: linear-gradient(90deg, #b08000, #6A0DAD);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    body.light-theme .nav-back {
+      color: #48484a; border-color: rgba(0,0,0,0.1);
+      -webkit-text-fill-color: #48484a;
+    }
+    body.light-theme .nav-back:hover {
+      color: #b08000; border-color: rgba(176,128,0,0.3);
+      background: rgba(176,128,0,0.06); -webkit-text-fill-color: #b08000;
+    }
+    body.light-theme .tabs { background: #ffffff; border-color: rgba(0,0,0,0.08); }
+    body.light-theme .tab-btn { color: #48484a; -webkit-text-fill-color: #48484a; }
+    body.light-theme .tab-btn.active {
+      background: linear-gradient(135deg, rgba(176,128,0,0.1), rgba(106,13,173,0.08));
+      color: #b08000; -webkit-text-fill-color: #b08000;
+      border-color: rgba(176,128,0,0.2);
+    }
+    body.light-theme .tab-btn:hover:not(.active) {
+      background: rgba(0,0,0,0.04); color: #1c1c1e; -webkit-text-fill-color: #1c1c1e;
+    }
+    body.light-theme .legal-section {
+      background: #ffffff; border-color: rgba(0,0,0,0.08);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    body.light-theme .legal-section:hover { border-color: rgba(176,128,0,0.2); }
+    body.light-theme .legal-section h2 { color: #b08000; -webkit-text-fill-color: #b08000; }
+    body.light-theme .legal-section p,
+    body.light-theme .legal-section li { color: #48484a; -webkit-text-fill-color: #48484a; }
+    body.light-theme .legal-section strong { color: #1c1c1e !important; -webkit-text-fill-color: #1c1c1e !important; }
+    body.light-theme .legal-section a { color: #b08000; -webkit-text-fill-color: #b08000; }
+    body.light-theme .legal-title { color: #1c1c1e; -webkit-text-fill-color: #1c1c1e; }
+    body.light-theme .legal-title span {
+      background: linear-gradient(90deg, #b08000, #c8960a);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    body.light-theme .legal-tag {
+      background: rgba(106,13,173,0.08); border-color: rgba(106,13,173,0.2);
+      color: #6A0DAD; -webkit-text-fill-color: #6A0DAD;
+    }
+    body.light-theme .legal-updated { color: #48484a; -webkit-text-fill-color: #48484a; }
+    body.light-theme .info-label { color: #6A0DAD; -webkit-text-fill-color: #6A0DAD; }
+    body.light-theme .info-value { color: #48484a; -webkit-text-fill-color: #48484a; }
+    body.light-theme ::-webkit-scrollbar-track { background: #f2f2f7; }
+
     @media (max-width: 600px) {
       .info-grid { grid-template-columns: 1fr; }
       .legal-section { padding: 22px 20px; }
       .tabs { flex-direction: column; }
     }
   </style>
+  <script>
+    (function() {
+      const stored = localStorage.getItem('novamc-theme');
+      if (stored === 'light') document.documentElement.classList.add('light-theme-pending');
+      const s = document.createElement('style');
+      s.textContent = stored === 'light'
+        ? 'body { background: #f2f2f7 !important; }'
+        : 'body { background: #0a0a12 !important; }';
+      document.head.appendChild(s);
+    })();
+  </script>
 </head>
 <body>
 
@@ -146,53 +215,30 @@
         <div class="legal-divider"></div>
         <p class="legal-updated">Pflichtangaben gemäß § 5 Telemediengesetz (TMG)</p>
       </div>
-
       <div class="legal-section">
         <h2><i class="fas fa-user"></i> Angaben gemäß § 5 TMG</h2>
         <div class="info-grid">
-          <div class="info-item">
-            <span class="info-label">Name</span>
-            <span class="info-value">Giuseppe Antonio Majica</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Straße & Hausnummer</span>
-            <span class="info-value">Pater-Dionysius-Str. 41</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">PLZ & Stadt</span>
-            <span class="info-value">50767 Köln</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Land</span>
-            <span class="info-value">Deutschland</span>
-          </div>
+          <div class="info-item"><span class="info-label">Name</span><span class="info-value">Giuseppe Antonio Majica</span></div>
+          <div class="info-item"><span class="info-label">Straße & Hausnummer</span><span class="info-value">Pater-Dionysius-Str. 41</span></div>
+          <div class="info-item"><span class="info-label">PLZ & Stadt</span><span class="info-value">50767 Köln</span></div>
+          <div class="info-item"><span class="info-label">Land</span><span class="info-value">Deutschland</span></div>
         </div>
       </div>
-
       <div class="legal-section">
         <h2><i class="fas fa-envelope"></i> Kontakt</h2>
         <div class="info-grid">
-          <div class="info-item">
-            <span class="info-label">E-Mail</span>
-            <span class="info-value"><a href="mailto:giuseppe@nova-corp.de">giuseppe@nova-corp.de</a></span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Website</span>
-            <span class="info-value"><a href="https://novamc.one">novamc.one</a></span>
-          </div>
+          <div class="info-item"><span class="info-label">E-Mail</span><span class="info-value"><a href="mailto:giuseppe@nova-corp.de">giuseppe@nova-corp.de</a></span></div>
+          <div class="info-item"><span class="info-label">Website</span><span class="info-value"><a href="https://novamc.one">novamc.one</a></span></div>
         </div>
       </div>
-
       <div class="legal-section">
         <h2><i class="fas fa-gamepad"></i> Art des Angebots</h2>
         <p>NovaMC ist ein privat betriebener Minecraft-Spieleserver. Das Angebot ist nicht gewerblicher Natur und wird ohne Gewinnerzielungsabsicht betrieben. Es besteht keine Verbindung zu Mojang Studios, Microsoft Corporation oder anderen offiziellen Minecraft-Anbietern.</p>
       </div>
-
       <div class="legal-section">
         <h2><i class="fas fa-link"></i> Haftung für Links</h2>
         <p>Diese Website enthält Links zu externen Websites Dritter (z. B. Discord). Für die Inhalte dieser externen Seiten sind ausschließlich deren Betreiber verantwortlich. Eine ständige Kontrolle der verlinkten Seiten ist ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar.</p>
       </div>
-
       <div class="legal-section">
         <h2><i class="fas fa-copyright"></i> Urheberrecht</h2>
         <p>Die durch den Seitenbetreiber erstellten Inhalte und Werke auf dieser Website unterliegen dem deutschen Urheberrecht. Minecraft® ist eine eingetragene Marke von Mojang Studios. Diese Seite ist kein offizielles Produkt von Mojang Studios oder Microsoft.</p>
@@ -207,26 +253,15 @@
         <div class="legal-divider"></div>
         <p class="legal-updated">Letzte Aktualisierung: Februar 2026</p>
       </div>
-
       <div class="legal-section">
         <h2><i class="fas fa-user-shield"></i> 1. Verantwortlicher</h2>
         <p>Verantwortlich für die Datenverarbeitung auf dieser Website ist:</p>
         <div class="info-grid" style="margin-top:12px;">
-          <div class="info-item">
-            <span class="info-label">Name</span>
-            <span class="info-value">Giuseppe Antonio Majica</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Adresse</span>
-            <span class="info-value">Pater-Dionysius-Str. 41, 50767 Köln</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">E-Mail</span>
-            <span class="info-value"><a href="mailto:giuseppe@nova-corp.de">giuseppe@nova-corp.de</a></span>
-          </div>
+          <div class="info-item"><span class="info-label">Name</span><span class="info-value">Giuseppe Antonio Majica</span></div>
+          <div class="info-item"><span class="info-label">Adresse</span><span class="info-value">Pater-Dionysius-Str. 41, 50767 Köln</span></div>
+          <div class="info-item"><span class="info-label">E-Mail</span><span class="info-value"><a href="mailto:giuseppe@nova-corp.de">giuseppe@nova-corp.de</a></span></div>
         </div>
       </div>
-
       <div class="legal-section">
         <h2><i class="fas fa-database"></i> 2. Welche Daten wir erheben</h2>
         <p>Beim Besuch dieser Website werden automatisch folgende Daten durch den Webserver gespeichert:</p>
@@ -239,55 +274,57 @@
         </ul>
         <p style="margin-top:10px;">Diese Daten werden ausschließlich zur technischen Bereitstellung der Website benötigt und nicht zur Identifizierung von Personen genutzt.</p>
       </div>
-
       <div class="legal-section">
         <h2><i class="fab fa-discord"></i> 3. Discord</h2>
         <p>Diese Website enthält Links zum Discord-Server von NovaMC. Wenn du auf den Discord-Link klickst, wirst du auf die Plattform Discord weitergeleitet. Discord ist ein Dienst der Discord Inc., 444 De Haro Street, Suite 200, San Francisco, CA 94107, USA.</p>
         <p style="margin-top:8px;">Bei der Nutzung von Discord gelten die <a href="https://discord.com/privacy" target="_blank">Datenschutzbestimmungen von Discord</a>. Wir haben keinen Einfluss auf die dort erhobenen Daten.</p>
       </div>
-
       <div class="legal-section">
         <h2><i class="fas fa-font"></i> 4. Google Fonts</h2>
-        <p>Diese Website lädt Schriftarten von Google Fonts (Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA). Dabei wird deine IP-Adresse an Google übertragen. Die Nutzung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der einheitlichen Darstellung der Website).</p>
+        <p>Diese Website lädt Schriftarten von Google Fonts (Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA). Dabei wird deine IP-Adresse an Google übertragen. Die Nutzung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO.</p>
       </div>
-
       <div class="legal-section">
         <h2><i class="fas fa-shield-virus"></i> 5. Cloudflare</h2>
-        <p>Diese Website nutzt den Dienst Cloudflare (Cloudflare Inc., 101 Townsend St, San Francisco, CA 94107, USA) zum Schutz vor Angriffen und zur Optimierung der Ladezeiten. Dabei kann deine IP-Adresse an Cloudflare übertragen werden. Weitere Infos: <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">cloudflare.com/privacypolicy</a>.</p>
+        <p>Diese Website nutzt den Dienst Cloudflare (Cloudflare Inc., 101 Townsend St, San Francisco, CA 94107, USA) zum Schutz vor Angriffen und zur Optimierung der Ladezeiten. Weitere Infos: <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">cloudflare.com/privacypolicy</a>.</p>
       </div>
-
       <div class="legal-section">
         <h2><i class="fas fa-icons"></i> 6. Font Awesome (CDN)</h2>
-        <p>Diese Website lädt Icons über Font Awesome (Fonticons, Inc.) via cdnjs.cloudflare.com. Dabei wird eine Verbindung zu Cloudflare-Servern hergestellt. Es werden keine personenbezogenen Daten dauerhaft gespeichert. Weitere Infos: <a href="https://fontawesome.com/privacy" target="_blank">fontawesome.com/privacy</a>.</p>
+        <p>Diese Website lädt Icons über Font Awesome via cdnjs.cloudflare.com. Es werden keine personenbezogenen Daten dauerhaft gespeichert. Weitere Infos: <a href="https://fontawesome.com/privacy" target="_blank">fontawesome.com/privacy</a>.</p>
       </div>
-
       <div class="legal-section">
         <h2><i class="fas fa-cookie-bite"></i> 7. Cookies</h2>
-        <p>Diese Website verwendet <strong style="color:var(--white);">keine Tracking-Cookies</strong> und keine Analyse-Tools (z. B. Google Analytics). Es werden ausschließlich technisch notwendige Funktionen verwendet, die keine personenbezogenen Daten speichern.</p>
+        <p>Diese Website verwendet <strong>keine Tracking-Cookies</strong> und keine Analyse-Tools. Es werden ausschließlich technisch notwendige Funktionen verwendet, die keine personenbezogenen Daten speichern.</p>
       </div>
-
       <div class="legal-section">
         <h2><i class="fas fa-balance-scale"></i> 8. Deine Rechte (DSGVO)</h2>
         <p>Du hast gemäß DSGVO folgende Rechte:</p>
         <ul>
-          <li><strong style="color:var(--white);">Auskunft</strong> – Auskunft über gespeicherte Daten verlangen (Art. 15 DSGVO)</li>
-          <li><strong style="color:var(--white);">Berichtigung</strong> – Korrektur falscher Daten (Art. 16 DSGVO)</li>
-          <li><strong style="color:var(--white);">Löschung</strong> – Löschung deiner Daten (Art. 17 DSGVO)</li>
-          <li><strong style="color:var(--white);">Einschränkung</strong> – Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
-          <li><strong style="color:var(--white);">Widerspruch</strong> – Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)</li>
-          <li><strong style="color:var(--white);">Beschwerde</strong> – Beschwerde bei der zuständigen Aufsichtsbehörde (NRW: <a href="https://www.ldi.nrw.de" target="_blank">ldi.nrw.de</a>)</li>
+          <li><strong>Auskunft</strong> – Auskunft über gespeicherte Daten verlangen (Art. 15 DSGVO)</li>
+          <li><strong>Berichtigung</strong> – Korrektur falscher Daten (Art. 16 DSGVO)</li>
+          <li><strong>Löschung</strong> – Löschung deiner Daten (Art. 17 DSGVO)</li>
+          <li><strong>Einschränkung</strong> – Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+          <li><strong>Widerspruch</strong> – Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)</li>
+          <li><strong>Beschwerde</strong> – Beschwerde bei der zuständigen Aufsichtsbehörde (NRW: <a href="https://www.ldi.nrw.de" target="_blank">ldi.nrw.de</a>)</li>
         </ul>
-        <p style="margin-top:10px;">Kontakt für Datenschutzanfragen: <a href="mailto:giuseppe@nova-corp.de">giuseppe@nova-corp.de</a></p>
+        <p style="margin-top:10px;">Kontakt: <a href="mailto:giuseppe@nova-corp.de">giuseppe@nova-corp.de</a></p>
       </div>
-
       <div class="legal-section">
         <h2><i class="fas fa-edit"></i> 9. Änderungen dieser Erklärung</h2>
-        <p>Wir behalten uns vor, diese Datenschutzerklärung bei Bedarf anzupassen. Die jeweils aktuelle Version ist auf dieser Seite verfügbar. Bei wesentlichen Änderungen werden Nutzer informiert.</p>
+        <p>Wir behalten uns vor, diese Datenschutzerklärung bei Bedarf anzupassen. Die jeweils aktuelle Version ist auf dieser Seite verfügbar.</p>
       </div>
     </div>
   </div>
 
   <script>
+    // Theme anwenden
+    (function() {
+      const stored = localStorage.getItem('novamc-theme');
+      if (stored === 'light') document.body.classList.add('light-theme');
+      else if (stored === 'dark') document.body.classList.add('dark-theme');
+      else if (window.matchMedia('(prefers-color-scheme: light)').matches)
+        document.body.classList.add('light-theme');
+    })();
+
     function switchTab(id, btn) {
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

@@ -1033,6 +1033,348 @@
     <p>Mit <span>♥</span> gebaut für die Community.</p>
   </div>
 </footer>
+<!-- THEME TOGGLE + COOKIE BADGE -->
+<button id="theme-toggle" aria-label="Theme wechseln">
+  <i class="fas fa-sun"></i>
+  <i class="fas fa-moon"></i>
+</button>
+
+<div id="cookie-badge">
+  <div class="cookie-inner">
+    <div class="cookie-header">
+      <span class="cookie-brand">NovaMC · novamc.one</span>
+      <button id="cookie-close" aria-label="Schließen">✕</button>
+    </div>
+    <p class="cookie-body">Nur technisch notwendige Speicherung (Dark/Light Mode). Kein Tracking, keine Werbung.</p>
+    <div class="cookie-actions">
+      <button id="cookie-decline">Ablehnen</button>
+      <button id="cookie-accept">Alles klar!</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ── LIGHT THEME ── */
+  body.light-theme {
+    --bg: #f2f2f7;
+    --bg2: #e8e8ed;
+    --bg3: #dddde2;
+    --card: #ffffff;
+    --card-border: rgba(0,0,0,0.08);
+    --text: #1c1c1e;
+    --text-muted: #48484a;
+    --white: #1c1c1e;
+    --gold: #b08000;
+    --gold-light: #c8960a;
+  }
+  body.light-theme body {
+    background: #f2f2f7;
+    color: #1c1c1e;
+  }
+  body.light-theme nav {
+    background: rgba(242,242,247,0.92) !important;
+    border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+  }
+  body.light-theme .nav-logo span {
+    background: linear-gradient(90deg, #b08000, #8A2BE2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  body.light-theme .nav-links a {
+    color: #48484a !important;
+    -webkit-text-fill-color: #48484a !important;
+  }
+  body.light-theme .nav-links a:hover {
+    color: #b08000 !important;
+    -webkit-text-fill-color: #b08000 !important;
+    background: rgba(176,128,0,0.08);
+  }
+  body.light-theme .mobile-menu {
+    background: rgba(242,242,247,0.98);
+  }
+  body.light-theme .mobile-menu a {
+    color: #48484a;
+  }
+
+  /* Hero */
+  body.light-theme .hero-desc { color: #48484a; }
+  body.light-theme .hero-server-ip {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.1);
+    color: #48484a;
+  }
+  body.light-theme .hero-server-ip code { color: #b08000; }
+  body.light-theme .hero-badge {
+    background: rgba(176,128,0,0.1);
+    border-color: rgba(176,128,0,0.3);
+    color: #b08000;
+  }
+  body.light-theme .hero-scroll-hint { color: #48484a; }
+  body.light-theme h1.hero-title .gold-text {
+    background: linear-gradient(90deg, #b08000, #c8960a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Karten */
+  body.light-theme .feature-card,
+  body.light-theme .team-card,
+  body.light-theme .stat-card {
+    background: #ffffff;
+    border-color: rgba(0,0,0,0.08);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  body.light-theme .feature-title,
+  body.light-theme .team-name,
+  body.light-theme .stat-number { color: #1c1c1e; }
+  body.light-theme .feature-desc,
+  body.light-theme .team-desc,
+  body.light-theme .stat-label { color: #48484a; }
+
+  /* Sections */
+  body.light-theme .section-title { color: #1c1c1e; }
+  body.light-theme .section-title span {
+    background: linear-gradient(90deg, #b08000, #c8960a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  body.light-theme .section-subtitle { color: #48484a; }
+  body.light-theme .section-tag {
+    background: rgba(138,43,226,0.08);
+    border-color: rgba(138,43,226,0.2);
+    color: #6A0DAD;
+  }
+
+  /* Join Box */
+  body.light-theme .join-box {
+    background: #ffffff;
+    border-color: rgba(0,0,0,0.08);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  }
+  body.light-theme .join-title { color: #1c1c1e; }
+  body.light-theme .join-sub { color: #48484a; }
+
+  /* Footer */
+  body.light-theme footer {
+    background: #e8e8ed;
+    border-top-color: rgba(0,0,0,0.08);
+  }
+  body.light-theme .footer-brand .logo-text {
+    background: linear-gradient(90deg, #b08000, #c8960a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  body.light-theme .footer-desc { color: #48484a; }
+  body.light-theme .footer-col h4 { color: #1c1c1e; }
+  body.light-theme .footer-links a { color: #48484a; }
+  body.light-theme .footer-links a:hover { color: #b08000; }
+  body.light-theme .footer-bottom p { color: #48484a; }
+  body.light-theme .footer-bottom span { color: #b08000; }
+  body.light-theme .social-link {
+    background: rgba(0,0,0,0.05);
+    border-color: rgba(0,0,0,0.1);
+    color: #48484a;
+  }
+
+  /* Particles dezenter */
+  body.light-theme #particles-canvas { opacity: 0.08; }
+
+  /* ── THEME TOGGLE ── */
+  #theme-toggle {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 1100;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: linear-gradient(135deg, var(--bg2), var(--bg3));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    backdrop-filter: blur(16px);
+    transition: all 0.25s ease;
+  }
+  #theme-toggle:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255,215,0,0.5);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+  }
+  #theme-toggle i { font-size: 17px; transition: opacity 0.2s, transform 0.2s; }
+  #theme-toggle .fa-sun  { color: #FFD700; opacity: 0.3; }
+  #theme-toggle .fa-moon { color: #a78bfa; opacity: 0.3; }
+  body.dark-theme  #theme-toggle .fa-moon { opacity: 1; transform: scale(1.1); }
+  body.dark-theme  #theme-toggle .fa-sun  { opacity: 0.25; }
+  body.light-theme #theme-toggle .fa-sun  { opacity: 1; transform: scale(1.1); }
+  body.light-theme #theme-toggle .fa-moon { opacity: 0.25; }
+
+  /* ── COOKIE BADGE ── */
+  @keyframes cookieSlideIn {
+    from { transform: translateY(120%) translateX(-50%); opacity: 0; }
+    to   { transform: translateY(0)    translateX(-50%); opacity: 1; }
+  }
+  @keyframes cookieSlideOut {
+    from { transform: translateY(0)    translateX(-50%); opacity: 1; }
+    to   { transform: translateY(120%) translateX(-50%); opacity: 0; }
+  }
+
+  #cookie-badge {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1200;
+    width: 420px;
+    max-width: calc(100vw - 32px);
+    animation: cookieSlideIn 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+  #cookie-badge.hiding {
+    animation: cookieSlideOut 0.35s ease forwards;
+  }
+  #cookie-badge.gone { display: none; }
+
+  #cookie-badge .cookie-inner {
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(12,12,28,0.97), rgba(18,18,42,0.97));
+    border: 1px solid rgba(255,215,0,0.18);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.03);
+    backdrop-filter: blur(24px);
+  }
+  body.light-theme #cookie-badge .cookie-inner {
+    background: linear-gradient(135deg, #ffffff, #f5f5fa);
+    border-color: rgba(0,0,0,0.09);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.13);
+  }
+
+  .cookie-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .cookie-brand {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #FFD700, #ffe566);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  body.light-theme .cookie-brand {
+    background: linear-gradient(90deg, #b08000, #c8960a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  #cookie-close {
+    background: none;
+    border: none;
+    color: #9999bb;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 2px 5px;
+    border-radius: 4px;
+    transition: color 0.2s;
+    -webkit-text-fill-color: #9999bb;
+  }
+  body.light-theme #cookie-close { color: #48484a; -webkit-text-fill-color: #48484a; }
+  #cookie-close:hover { color: #FFD700 !important; -webkit-text-fill-color: #FFD700 !important; }
+
+  .cookie-body {
+    font-size: 0.83rem;
+    color: #9999bb;
+    line-height: 1.55;
+    margin-bottom: 14px;
+    -webkit-text-fill-color: #9999bb;
+  }
+  body.light-theme .cookie-body { color: #48484a; -webkit-text-fill-color: #48484a; }
+
+  .cookie-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+  #cookie-decline {
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: transparent;
+    color: #9999bb;
+    -webkit-text-fill-color: #9999bb;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  body.light-theme #cookie-decline {
+    border-color: rgba(0,0,0,0.12);
+    color: #48484a;
+    -webkit-text-fill-color: #48484a;
+  }
+  #cookie-decline:hover { border-color: rgba(255,255,255,0.3); color: #fff; -webkit-text-fill-color: #fff; }
+  body.light-theme #cookie-decline:hover { color: #1c1c1e; -webkit-text-fill-color: #1c1c1e; }
+
+  #cookie-accept {
+    padding: 7px 18px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(135deg, #FFD700, #e6b800);
+    color: #000;
+    -webkit-text-fill-color: #000;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 0 18px rgba(255,215,0,0.35);
+    transition: all 0.2s;
+  }
+  #cookie-accept:hover { box-shadow: 0 0 28px rgba(255,215,0,0.6); transform: translateY(-1px); }
+
+  @media (max-width: 480px) {
+    #theme-toggle { right: 12px; bottom: 12px; }
+    #cookie-badge { bottom: 70px; }
+  }
+</style>
+
+<script>
+  (function() {
+    const body = document.body;
+    const stored = localStorage.getItem('novamc-theme');
+    if (stored === 'light') body.classList.add('light-theme');
+    else if (stored === 'dark') body.classList.add('dark-theme');
+    else body.classList.add(
+      window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark-theme' : 'light-theme'
+    );
+
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const isDark = body.classList.contains('dark-theme');
+      body.classList.toggle('dark-theme', !isDark);
+      body.classList.toggle('light-theme', isDark);
+      localStorage.setItem('novamc-theme', isDark ? 'light' : 'dark');
+    });
+
+    const COOKIE_KEY = 'novamc-cookie-v1';
+    const badge = document.getElementById('cookie-badge');
+    if (localStorage.getItem(COOKIE_KEY)) badge.classList.add('gone');
+
+    function dismiss() {
+      badge.classList.add('hiding');
+      setTimeout(() => badge.classList.add('gone'), 380);
+    }
+    document.getElementById('cookie-accept').addEventListener('click', () => {
+      localStorage.setItem(COOKIE_KEY, '1');
+      dismiss();
+    });
+    document.getElementById('cookie-decline').addEventListener('click', dismiss);
+    document.getElementById('cookie-close').addEventListener('click', dismiss);
+  })();
+</script>
+
+</body>
 
 
   <script>

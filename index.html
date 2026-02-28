@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaMC – Minecraft Citybuild Server</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #FFD700;
+      --gold-dark: #c8a800;
+      --gold-light: #ffe566;
+      --purple: #8A2BE2;
+      --purple-dark: #6A0DAD;
+      --purple-deep: #3d0070;
+      --bg: #0a0a12;
+      --bg2: #0f0f1a;
+      --bg3: #141428;
+      --card: #13132a;
+      --card-border: rgba(138,43,226,0.18);
+      --text: #f0f0ff;
+      --text-muted: #9999bb;
+      --white: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
+
+    /* ── CANVAS PARTICLES ── */
+    #particles-canvas {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+      opacity: 0.45;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 70px;
+      background: rgba(10,10,18,0.85);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,215,0,0.1);
+      transition: background 0.3s ease;
+    }
+    nav.scrolled {
+      background: rgba(10,10,18,0.97);
+      border-bottom-color: rgba(255,215,0,0.2);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo .logo-icon {
+      width: 38px; height: 38px;
+      background: none;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 900; color: #000;
+    }
+    .nav-logo span {
+      font-size: 1.4rem; font-weight: 800;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: 0.03em;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 2px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none; color: var(--text-muted);
+      font-size: 0.88rem; font-weight: 500;
+      padding: 6px 13px; border-radius: 6px;
+      transition: color 0.25s, background 0.25s;
+    }
+    .nav-links a:hover {
+      color: var(--gold);
+      background: rgba(255,215,0,0.07);
+    }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--gold), #e6b800) !important;
+      color: #000 !important; font-weight: 700 !important;
+      padding: 7px 16px !important; border-radius: 8px !important;
+      box-shadow: 0 0 12px rgba(255,215,0,0.3);
+    }
+    .nav-cta:hover { box-shadow: 0 0 22px rgba(255,215,0,0.55) !important; }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--gold); border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .mobile-menu {
+      display: none; position: fixed;
+      top: 70px; left: 0; right: 0;
+      background: rgba(10,10,18,0.98);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,215,0,0.1);
+      padding: 20px 5%;
+      z-index: 999;
+      flex-direction: column; gap: 4px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--text-muted); text-decoration: none;
+      font-size: 1rem; font-weight: 500;
+      padding: 12px 16px; border-radius: 8px;
+      transition: all 0.25s;
+    }
+    .mobile-menu a:hover { color: var(--gold); background: rgba(255,215,0,0.07); }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 5% 80px;
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; border-radius: 50%;
+      filter: blur(90px); pointer-events: none; z-index: 0;
+    }
+    .hero-glow-1 {
+      width: 500px; height: 500px;
+      background: rgba(138,43,226,0.18);
+      top: -100px; left: -150px;
+    }
+    .hero-glow-2 {
+      width: 400px; height: 400px;
+      background: rgba(255,215,0,0.12);
+      bottom: 0; right: -100px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,215,0,0.08);
+      border: 1px solid rgba(255,215,0,0.25);
+      border-radius: 50px; padding: 6px 16px;
+      font-size: 0.8rem; font-weight: 600; color: var(--gold);
+      margin-bottom: 24px; letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp 0.7s 0.1s ease forwards;
+    }
+    .hero-badge i { font-size: 0.75rem; }
+    h1.hero-title {
+      font-size: clamp(2.2rem, 6vw, 4.8rem);
+      font-weight: 900; line-height: 1.1;
+      margin-bottom: 20px;
+      opacity: 0; transform: translateY(30px);
+      animation: fadeUp 0.8s 0.3s ease forwards;
+    }
+    h1.hero-title .gold-text {
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 18px rgba(255,215,0,0.35));
+    }
+    h1.hero-title .purple-text {
+      background: linear-gradient(90deg, #b06cff, var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-desc {
+      max-width: 580px;
+      font-size: clamp(1rem, 2vw, 1.18rem);
+      font-weight: 400; color: var(--text-muted);
+      line-height: 1.7; margin-bottom: 38px;
+      opacity: 0; transform: translateY(30px);
+      animation: fadeUp 0.8s 0.5s ease forwards;
+    }
+    .hero-buttons {
+      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+      opacity: 0; transform: translateY(30px);
+      animation: fadeUp 0.8s 0.7s ease forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 14px 30px; border-radius: 12px;
+      font-size: 1rem; font-weight: 700;
+      text-decoration: none; cursor: pointer;
+      border: none; transition: all 0.3s ease;
+      letter-spacing: 0.02em;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold) 0%, #e0a800 100%);
+      color: #000;
+      box-shadow: 0 4px 24px rgba(255,215,0,0.35);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 36px rgba(255,215,0,0.6);
+    }
+    .btn-secondary {
+      background: rgba(138,43,226,0.12);
+      border: 1.5px solid rgba(138,43,226,0.5);
+      color: #c084fc;
+      box-shadow: 0 4px 16px rgba(138,43,226,0.15);
+    }
+    .btn-secondary:hover {
+      background: rgba(138,43,226,0.22);
+      border-color: var(--purple);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(138,43,226,0.4);
+      color: #d8a8ff;
+    }
+    .hero-server-ip {
+      margin-top: 36px;
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; padding: 10px 20px;
+      font-size: 0.88rem; color: var(--text-muted);
+      opacity: 0; animation: fadeUp 0.8s 0.9s ease forwards;
+    }
+    .hero-server-ip code {
+      color: var(--gold); font-weight: 700;
+      font-family: monospace; font-size: 0.95rem;
+    }
+    .copy-btn {
+      background: none; border: none; color: var(--text-muted);
+      cursor: pointer; font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .copy-btn:hover { color: var(--gold); }
+    .hero-scroll-hint {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: var(--text-muted); font-size: 0.75rem;
+      animation: bounce 2s infinite;
+      opacity: 0.6;
+    }
+    .hero-scroll-hint i { font-size: 1rem; }
+
+    /* ── STATS ── */
+    #stats {
+      position: relative; z-index: 1;
+      padding: 60px 5%;
+      background: linear-gradient(180deg, transparent, rgba(138,43,226,0.05) 50%, transparent);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px; max-width: 1100px; margin: 0 auto;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 16px; padding: 28px 24px;
+      text-align: center;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .stat-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,215,0,0.3);
+      box-shadow: 0 12px 40px rgba(255,215,0,0.1);
+    }
+    .stat-icon {
+      font-size: 1.8rem; margin-bottom: 10px;
+      background: linear-gradient(135deg, var(--gold), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-number {
+      font-size: 2.4rem; font-weight: 900; color: var(--white);
+      line-height: 1;
+    }
+    .stat-number .suffix { color: var(--gold); }
+    .stat-label {
+      font-size: 0.82rem; color: var(--text-muted);
+      font-weight: 500; margin-top: 6px;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+
+    /* ── SECTIONS COMMON ── */
+    section { position: relative; z-index: 1; }
+    .section-header {
+      text-align: center; margin-bottom: 52px;
+    }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--purple); background: rgba(138,43,226,0.12);
+      border: 1px solid rgba(138,43,226,0.3);
+      border-radius: 50px; padding: 4px 14px; margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; color: var(--white); line-height: 1.2;
+    }
+    .section-title span {
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .section-subtitle {
+      font-size: 1rem; color: var(--text-muted);
+      margin-top: 12px; max-width: 520px; margin-left: auto; margin-right: auto;
+    }
+    .divider {
+      width: 60px; height: 3px; margin: 16px auto 0;
+      background: linear-gradient(90deg, var(--gold), var(--purple));
+      border-radius: 2px;
+    }
+
+    /* ── FEATURES ── */
+    #features { padding: 100px 5%; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px; max-width: 1200px; margin: 0 auto;
+    }
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 32px 28px;
+      transition: all 0.35s ease;
+      cursor: default;
+    }
+    .feature-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255,215,0,0.35);
+      box-shadow: 0 16px 50px rgba(138,43,226,0.2), 0 0 0 1px rgba(255,215,0,0.08);
+    }
+    .feature-card:hover .feature-icon-wrap {
+      background: linear-gradient(135deg, var(--purple), var(--gold));
+      box-shadow: 0 0 28px rgba(255,215,0,0.4);
+    }
+    .feature-icon-wrap {
+      width: 56px; height: 56px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--gold), var(--purple));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 20px;
+      transition: all 0.35s ease;
+      box-shadow: 0 0 16px rgba(255,215,0,0.2);
+    }
+    .feature-title {
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--white); margin-bottom: 10px;
+    }
+    .feature-desc {
+      font-size: 0.9rem; color: var(--text-muted); line-height: 1.65;
+    }
+
+    /* ── SCREENSHOT CAROUSEL ── */
+    #screenshots { padding: 80px 5%; background: var(--bg2); }
+    .carousel-wrap {
+      max-width: 1100px; margin: 0 auto;
+      position: relative; overflow: hidden; border-radius: 20px;
+    }
+    .carousel-track {
+      display: flex; transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+    }
+    .carousel-slide {
+      min-width: 100%; height: 420px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 20px; overflow: hidden; position: relative;
+      flex-shrink: 0;
+    }
+    .carousel-slide .slide-bg {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+    }
+    .carousel-slide .slide-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.75));
+      padding: 32px 28px 24px;
+    }
+    .slide-title { font-size: 1.3rem; font-weight: 700; color: #fff; }
+    .slide-sub { font-size: 0.88rem; color: rgba(255,255,255,0.65); margin-top: 4px; }
+    .carousel-dots {
+      display: flex; justify-content: center; gap: 8px; margin-top: 20px;
+    }
+    .carousel-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.2); cursor: pointer;
+      transition: all 0.3s ease; border: none;
+    }
+    .carousel-dot.active {
+      background: var(--gold); width: 24px; border-radius: 4px;
+    }
+    .carousel-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15);
+      color: #fff; border-radius: 50%; width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 5; font-size: 1rem;
+      transition: all 0.25s ease;
+    }
+    .carousel-btn:hover {
+      background: rgba(255,215,0,0.2); border-color: var(--gold); color: var(--gold);
+    }
+    .carousel-btn.prev { left: 16px; }
+    .carousel-btn.next { right: 16px; }
+
+    /* ── TEAM ── */
+    #team { padding: 100px 5%; }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px; max-width: 1000px; margin: 0 auto;
+    }
+    .team-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 28px 20px;
+      text-align: center; transition: all 0.35s ease;
+    }
+    .team-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 50px rgba(138,43,226,0.25);
+      border-color: rgba(138,43,226,0.4);
+    }
+    .team-avatar {
+      width: 80px; height: 80px; border-radius: 50%;
+      margin: 0 auto 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; font-weight: 900; color: #000;
+      position: relative;
+      transition: box-shadow 0.35s ease;
+    }
+    .team-card:hover .team-avatar {
+      box-shadow: 0 0 28px rgba(255,215,0,0.55);
+    }
+    .team-rank {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; padding: 3px 10px; border-radius: 50px;
+      margin-bottom: 8px; display: inline-block;
+    }
+    .rank-owner { background: rgba(255,215,0,0.15); color: var(--gold); border: 1px solid rgba(255,215,0,0.3); }
+    .rank-admin { background: rgba(138,43,226,0.15); color: #c084fc; border: 1px solid rgba(138,43,226,0.3); }
+    .rank-support { background: rgba(56,189,248,0.15); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.3); }
+    .rank-builder { background: rgba(74,222,128,0.15); color: #86efac; border: 1px solid rgba(74,222,128,0.3); }
+    .team-name {
+      font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 4px;
+    }
+    .team-desc { font-size: 0.82rem; color: var(--text-muted); }
+
+    /* ── JOIN CTA ── */
+    #join {
+      padding: 100px 5%;
+      background: radial-gradient(ellipse at 50% 50%, rgba(138,43,226,0.12) 0%, transparent 70%);
+    }
+    .join-box {
+      max-width: 750px; margin: 0 auto; text-align: center;
+      background: var(--card);
+      border: 1px solid rgba(255,215,0,0.18);
+      border-radius: 28px; padding: 64px 48px;
+      position: relative; overflow: hidden;
+    }
+    .join-box::before {
+      content: '';
+      position: absolute; inset: 0; border-radius: 28px;
+      background: linear-gradient(135deg, rgba(255,215,0,0.04), rgba(138,43,226,0.04));
+      pointer-events: none;
+    }
+    .join-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 800; color: var(--white); margin-bottom: 14px;
+    }
+    .join-sub {
+      color: var(--text-muted); font-size: 1rem; line-height: 1.7;
+      margin-bottom: 36px; max-width: 480px; margin-left: auto; margin-right: auto;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid rgba(255,215,0,0.08);
+      padding: 60px 5% 30px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 40px; max-width: 1200px; margin: 0 auto;
+    }
+    .footer-brand .logo-wrap {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+    }
+    .footer-brand .logo-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: none;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 900; color: #000;
+    }
+    .footer-brand .logo-text {
+      font-size: 1.25rem; font-weight: 800;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .footer-desc {
+      font-size: 0.875rem; color: var(--text-muted);
+      line-height: 1.7; margin-bottom: 20px; max-width: 280px;
+    }
+    .social-links { display: flex; gap: 10px; }
+    .social-link {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted); font-size: 1rem;
+      text-decoration: none; transition: all 0.25s ease;
+    }
+    .social-link:hover {
+      background: rgba(255,215,0,0.1);
+      border-color: rgba(255,215,0,0.35);
+      color: var(--gold); transform: translateY(-2px);
+    }
+    .footer-col h4 {
+      font-size: 0.85rem; font-weight: 700; color: var(--white);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a {
+      text-decoration: none; color: var(--text-muted);
+      font-size: 0.875rem; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      max-width: 1200px; margin: 40px auto 0;
+      padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-bottom p {
+      font-size: 0.8rem; color: var(--text-muted);
+    }
+    .footer-bottom span { color: var(--gold); }
+
+
+    /* ── RANGLISTE ── */
+    .rl-tab {
+      padding: 9px 20px; border-radius: 10px; border: none;
+      background: none; color: var(--text-muted); font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; font-weight: 600; cursor: pointer;
+      transition: all 0.25s ease; display: flex; align-items: center; gap: 7px;
+    }
+    .rl-tab.active {
+      background: linear-gradient(135deg, rgba(255,215,0,0.12), rgba(138,43,226,0.12));
+      color: var(--gold); border: 1px solid rgba(255,215,0,0.2);
+    }
+    .rl-tab:hover:not(.active) { color: var(--text); background: rgba(255,255,255,0.04); }
+
+    .podium-wrap {
+      display: flex; align-items: flex-end; justify-content: center;
+      gap: 16px; margin-bottom: 32px;
+    }
+    .podium-card {
+      display: flex; flex-direction: column; align-items: center;
+      position: relative;
+    }
+    .podium-crown {
+      font-size: 1.6rem; margin-bottom: 4px;
+      animation: bounce-crown 2s ease-in-out infinite;
+    }
+    @keyframes bounce-crown {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    .podium-rank {
+      font-size: 0.75rem; font-weight: 800; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;
+    }
+    .podium-1 .podium-rank { color: var(--gold); font-size: 0.85rem; }
+    .podium-avatar {
+      width: 64px; height: 64px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; margin-bottom: 10px;
+      box-shadow: 0 0 20px rgba(255,215,0,0.2);
+      transition: box-shadow 0.3s;
+    }
+    .podium-1 .podium-avatar { width: 80px; height: 80px; box-shadow: 0 0 30px rgba(255,215,0,0.45); }
+    .podium-name {
+      font-size: 0.9rem; font-weight: 700; color: var(--white);
+      margin-bottom: 4px;
+    }
+    .podium-1 .podium-name { font-size: 1rem; color: var(--gold); }
+    .podium-time {
+      font-size: 0.75rem; color: var(--text-muted);
+      margin-bottom: 12px; display: flex; align-items: center; gap: 5px;
+    }
+    .podium-bar {
+      width: 100px; border-radius: 8px 8px 0 0;
+      opacity: 0.35;
+    }
+    .podium-1 .podium-bar { width: 120px; opacity: 0.5; }
+
+    .rl-list { display: flex; flex-direction: column; gap: 10px; }
+    .rl-row {
+      display: grid;
+      grid-template-columns: 36px 36px 1fr auto 200px;
+      align-items: center; gap: 14px;
+      background: var(--card); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 14px 20px;
+      transition: all 0.3s ease;
+    }
+    .rl-row:hover {
+      border-color: rgba(255,215,0,0.25);
+      transform: translateX(4px);
+      box-shadow: 0 4px 20px rgba(138,43,226,0.1);
+    }
+    .rl-pos {
+      font-size: 0.85rem; font-weight: 800; color: var(--text-muted);
+      text-align: center;
+    }
+    .rl-avatar { font-size: 1.3rem; text-align: center; }
+    .rl-name { font-size: 0.92rem; font-weight: 600; color: var(--white); }
+    .rl-stat {
+      font-size: 0.82rem; color: var(--gold); font-weight: 600;
+      display: flex; align-items: center; gap: 6px; white-space: nowrap;
+    }
+    .rl-bar-wrap {
+      height: 6px; background: rgba(255,255,255,0.06);
+      border-radius: 3px; overflow: hidden;
+    }
+    .rl-bar {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, var(--purple), var(--gold));
+      transition: width 1s ease;
+    }
+
+    @media (max-width: 700px) {
+      .rl-row { grid-template-columns: 28px 28px 1fr auto; }
+      .rl-bar-wrap { display: none; }
+      .podium-bar { width: 70px; }
+      .podium-1 .podium-bar { width: 85px; }
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 700px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .carousel-slide { height: 280px; }
+      .join-box { padding: 40px 24px; }
+    }
+    @media (max-width: 480px) {
+      .hero-buttons { flex-direction: column; align-items: center; }
+      .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">
+      
+      <span>NovaMC</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#hero">Start</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#screenshots">Screenshots</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#rangliste">Rangliste</a></li>
+      <li><a href="#">Store</a></li>
+      <li><a href="https://discord.gg/nX5mwrc5hn">Support</a></li>
+      <li><a href="http://dc.novamc.one" class="nav-cta">Discord</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#hero" onclick="closeMenu()">Start</a>
+    <a href="#features" onclick="closeMenu()">Features</a>
+    <a href="#screenshots" onclick="closeMenu()">Screenshots</a>
+    <a href="#team" onclick="closeMenu()">Team</a>
+    <a href="#rangliste" onclick="closeMenu()">Rangliste</a>
+    <a href="#" onclick="closeMenu()">Store</a>
+    <a href="https://discord.gg/nX5mwrc5hn" onclick="closeMenu()">Support</a>
+    <a href="http://dc.novamc.one" onclick="closeMenu()">Discord</a>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="hero-badge"><i class="fas fa-star"></i> #1 Citybuild Server</div>
+    <h1 class="hero-title">
+      Willkommen auf <span class="gold-text">NovaMC</span><br />
+      Deine <span class="purple-text">Citybuild‑Welt</span>
+    </h1>
+    <p class="hero-desc">
+      Baue deine Stadt, schreibe Geschichte und werde Teil einer aktiven Community.
+      Events, faire Regeln und epische Builds erwarten dich – jeden Tag.
+    </p>
+    <div class="hero-buttons">
+      <a href="#" class="btn btn-primary"><i class="fas fa-play"></i> Jetzt beitreten</a>
+      <a href="http://dc.novamc.one" class="btn btn-secondary"><i class="fab fa-discord"></i> Discord beitreten</a>
+    </div>
+    <div class="hero-server-ip">
+      <i class="fas fa-server" style="color:var(--gold)"></i>
+      Server‑IP: <code id="serverIP">novamc.one</code>
+      <button class="copy-btn" onclick="copyIP()" title="IP kopieren"><i class="far fa-copy"></i></button>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll</span><i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section id="stats">
+    <div class="stats-grid">
+      <div class="stat-card fade-in">
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+        <div class="stat-number" data-target="4800" data-suffix="+">0</div>
+        <div class="stat-label">Registrierte Mitglieder</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-icon"><i class="fas fa-city"></i></div>
+        <div class="stat-number" data-target="12000" data-suffix="+">0</div>
+        <div class="stat-label">Gebäude gebaut</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-icon"><i class="fas fa-signal"></i></div>
+        <div class="stat-number" data-target="99" data-suffix="%">0</div>
+        <div class="stat-label">Server Uptime</div>
+      </div>
+      <div class="stat-card fade-in">
+        <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+        <div class="stat-number" data-target="240" data-suffix="+">0</div>
+        <div class="stat-label">Events veranstaltet</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="section-header fade-in">
+      <div class="section-tag">Warum NovaMC?</div>
+      <h2 class="section-title">Alles, was du <span>brauchst</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Von massiven Stadtbauten bis hin zu regelmäßigen Events – NovaMC bietet dir das vollständige Citybuild-Erlebnis.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card fade-in">
+        <div class="feature-icon-wrap">🏙️</div>
+        <div class="feature-title">Massive Citybuilds</div>
+        <div class="feature-desc">Erschaffe beeindruckende Städte mit modernen Gebäuden, Infrastruktur und detaillierten Stadtteilen. Deiner Kreativität sind keine Grenzen gesetzt.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon-wrap">🤝</div>
+        <div class="feature-title">Aktive Community</div>
+        <div class="feature-desc">Discord-Events und ein freundliches Team machen NovaMC zu mehr als nur einem Server – es ist eine Familie.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon-wrap">🏆</div>
+        <div class="feature-title">Events & Wettbewerbe</div>
+        <div class="feature-desc">Regelmäßige Bauwettbewerbe, saisonale Events und Community-Challenges mit attraktiven Preisen. Zeige, was in dir steckt!</div>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon-wrap">⚖️</div>
+        <div class="feature-title">Fair Play & Support</div>
+        <div class="feature-desc">Anti-Cheat, klare Regeln und ein reaktionsschnelles Support-Team sorgen für eine faire und sichere Spielumgebung für alle.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon-wrap">💎</div>
+        <div class="feature-title">Premium Economy</div>
+        <div class="feature-desc">Verdiene Gold durch Handel, Bauprojekte und Events. Investiere in deine Stadt und steige in der Rangliste auf.</div>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon-wrap">🔧</div>
+        <div class="feature-title">Custom Features</div>
+        <div class="feature-desc">Einzigartige Plugins, maßgeschneiderte Spielmechaniken und regelmäßige Updates sorgen dafür, dass NovaMC immer frisch bleibt.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREENSHOTS -->
+  <section id="screenshots">
+    <div class="section-header fade-in" style="padding: 0 0 0 0;">
+      <div class="section-tag">Gallery</div>
+      <h2 class="section-title">Erlebe <span>NovaMC</span></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="carousel-wrap fade-in" style="margin-top: 40px;">
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-slide" style="background: linear-gradient(135deg,#1a0533,#0d1a2e);">
+          <div class="slide-bg">🌆</div>
+          <div class="slide-overlay">
+            <div class="slide-title">NovaMC – Das Herz des Servers</div>
+            <div class="slide-sub">Das Stadtzentrum mit über 200 einzigartigen Gebäuden</div>
+          </div>
+        </div>
+        <div class="carousel-slide" style="background: linear-gradient(135deg,#0d2e1a,#1a1a03);">
+          <div class="slide-bg">🌳</div>
+          <div class="slide-overlay">
+            <div class="slide-title">Grüne Viertel & Parks</div>
+            <div class="slide-sub">Naturreiche Wohnviertel mit gepflegten Gärten</div>
+          </div>
+        </div>
+        <div class="carousel-slide" style="background: linear-gradient(135deg,#2e0d0d,#1a0a2e);">
+          <div class="slide-bg">🏟️</div>
+          <div class="slide-overlay">
+            <div class="slide-title">Das Event-Stadion</div>
+            <div class="slide-sub">Austragungsort für Wettbewerbe und Community-Events</div>
+          </div>
+        </div>
+        <div class="carousel-slide" style="background: linear-gradient(135deg,#0a1a2e,#2e0a1a);">
+          <div class="slide-bg">🌙</div>
+          <div class="slide-overlay">
+            <div class="slide-title">NovaMC bei Nacht</div>
+            <div class="slide-sub">Atemberaubende Lichtshow und beleuchtete Skyline</div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-btn prev" onclick="moveCarousel(-1)"><i class="fas fa-chevron-left"></i></button>
+      <button class="carousel-btn next" onclick="moveCarousel(1)"><i class="fas fa-chevron-right"></i></button>
+    </div>
+    <div class="carousel-dots" id="carouselDots"></div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team">
+    <div class="section-header fade-in">
+      <div class="section-tag">Unser Team</div>
+      <h2 class="section-title">Hinter <span>NovaMC</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Unser engagiertes Team arbeitet täglich daran, NovaMC so gut wie möglich zu gestalten.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card fade-in">
+        <div class="team-avatar" style="background: linear-gradient(135deg,#FFD700,#e0a800);">👑</div>
+        <span class="team-rank rank-owner">Owner</span>
+        <div class="team-name"></div>
+        <div class="team-desc">Gründer & Vision des Servers</div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar" style="background: linear-gradient(135deg,#8A2BE2,#5b0fa0);">🛡️</div>
+        <span class="team-rank rank-admin">Admin</span>
+        <div class="team-name"></div>
+        <div class="team-desc">Regeln & Community-Pflege</div>
+        <div class="team-card fade-in">
+        <div class="team-avatar" style="background: linear-gradient(135deg,#8A2BE2,#6A0DAD);">⚙️</div>
+        <span class="team-rank rank-admin">Developer</span>
+        <div class="team-name"></div>
+        <div class="team-desc">Coding & Ideen-Umsetzung</div>
+      </div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar" style="background: linear-gradient(135deg,#38bdf8,#0ea5e9);">💬</div>
+        <span class="team-rank rank-support">Support</span>
+        <div class="team-name"></div>
+        <div class="team-desc">Spieler-Support & Hilfe</div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar" style="background: linear-gradient(135deg,#4ade80,#16a34a);">🔨</div>
+        <span class="team-rank rank-builder">Builder</span>
+        <div class="team-name"></div>
+        <div class="team-desc">Spawn & Welt-Design</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- RANGLISTE -->
+  <section id="rangliste" style="padding: 100px 5%; background: var(--bg2);">
+    <div class="section-header fade-in">
+      <div class="section-tag">Topliste</div>
+      <h2 class="section-title">Aktivste <span>Spieler</span></h2>
+      <div class="divider"></div>
+      <p class="section-subtitle">Die fleißigsten Mitglieder unserer Community – sortiert nach Spielzeit.</p>
+    </div>
+
+    <!-- Tabs -->
+    <div style="display:flex; justify-content:center; margin-bottom:36px;" class="fade-in">
+      <div style="display:flex; gap:8px; background:var(--card); border:1px solid var(--card-border); border-radius:14px; padding:6px;">
+        <button class="rl-tab active" onclick="switchRlTab('spielzeit', this)"><i class="fas fa-clock"></i> Spielzeit</button>
+        <button class="rl-tab" onclick="switchRlTab('heute', this)"><i class="fas fa-calendar-day"></i> Heute aktiv</button>
+      </div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div style="max-width:860px; margin:0 auto;" class="fade-in">
+
+      <!-- Top 3 Podium -->
+      <div class="podium-wrap">
+        <div class="podium-card podium-2">
+          <div class="podium-rank">2</div>
+          <div class="podium-avatar" style="background:linear-gradient(135deg,#9ca3af,#6b7280);">🧱</div>
+          <div class="podium-name">Spieler2</div>
+          <div class="podium-time"><i class="fas fa-clock"></i> 48T 12Std</div>
+          <div class="podium-bar" style="height:80px; background:linear-gradient(180deg,#9ca3af,#6b7280);"></div>
+        </div>
+        <div class="podium-card podium-1">
+          <div class="podium-crown">👑</div>
+          <div class="podium-rank">1</div>
+          <div class="podium-avatar" style="background:linear-gradient(135deg,var(--gold),#e0a800);">⭐</div>
+          <div class="podium-name">Spieler1</div>
+          <div class="podium-time"><i class="fas fa-clock"></i> 72T 4Std</div>
+          <div class="podium-bar" style="height:120px; background:linear-gradient(180deg,var(--gold),#c8a800);"></div>
+        </div>
+        <div class="podium-card podium-3">
+          <div class="podium-rank">3</div>
+          <div class="podium-avatar" style="background:linear-gradient(135deg,#cd7f32,#a0522d);">🔨</div>
+          <div class="podium-name">Spieler3</div>
+          <div class="podium-time"><i class="fas fa-clock"></i> 31T 7Std</div>
+          <div class="podium-bar" style="height:60px; background:linear-gradient(180deg,#cd7f32,#8b4513);"></div>
+        </div>
+      </div>
+
+      <!-- Plätze 4–10 -->
+      <div class="rl-list">
+        <div class="rl-row"><span class="rl-pos">4</span><span class="rl-avatar">🏗️</span><span class="rl-name">Spieler4</span><span class="rl-stat"><i class="fas fa-clock"></i> 28T 19Std</span><div class="rl-bar-wrap"><div class="rl-bar" style="width:65%"></div></div></div>
+        <div class="rl-row"><span class="rl-pos">5</span><span class="rl-avatar">🏠</span><span class="rl-name">Spieler5</span><span class="rl-stat"><i class="fas fa-clock"></i> 22T 3Std</span><div class="rl-bar-wrap"><div class="rl-bar" style="width:52%"></div></div></div>
+        <div class="rl-row"><span class="rl-pos">6</span><span class="rl-avatar">🌆</span><span class="rl-name">Spieler6</span><span class="rl-stat"><i class="fas fa-clock"></i> 18T 11Std</span><div class="rl-bar-wrap"><div class="rl-bar" style="width:44%"></div></div></div>
+        <div class="rl-row"><span class="rl-pos">7</span><span class="rl-avatar">⚒️</span><span class="rl-name">Spieler7</span><span class="rl-stat"><i class="fas fa-clock"></i> 15T 22Std</span><div class="rl-bar-wrap"><div class="rl-bar" style="width:38%"></div></div></div>
+        <div class="rl-row"><span class="rl-pos">8</span><span class="rl-avatar">🔧</span><span class="rl-name">Spieler8</span><span class="rl-stat"><i class="fas fa-clock"></i> 12T 6Std</span><div class="rl-bar-wrap"><div class="rl-bar" style="width:30%"></div></div></div>
+        <div class="rl-row"><span class="rl-pos">9</span><span class="rl-avatar">🏡</span><span class="rl-name">Spieler9</span><span class="rl-stat"><i class="fas fa-clock"></i> 9T 14Std</span><div class="rl-bar-wrap"><div class="rl-bar" style="width:23%"></div></div></div>
+        <div class="rl-row"><span class="rl-pos">10</span><span class="rl-avatar">🌇</span><span class="rl-name">Spieler10</span><span class="rl-stat"><i class="fas fa-clock"></i> 7T 2Std</span><div class="rl-bar-wrap"><div class="rl-bar" style="width:17%"></div></div></div>
+      </div>
+
+      <p style="text-align:center; font-size:0.8rem; color:var(--text-muted); margin-top:24px; opacity:0.6;">
+        <i class="fas fa-sync-alt"></i> Wird automatisch durch das PlaytimeTracker-Plugin aktualisiert
+      </p>
+    </div>
+  </section>
+
+  <!-- JOIN CTA -->
+  <section id="join">
+    <div class="join-box fade-in">
+      <h2 class="join-title">Bereit, Teil von NovaMC zu werden?</h2>
+      <p class="join-sub">
+        Tritt noch heute bei und erlebe das beste Citybuild-Abenteuer auf Minecraft.
+        Kostenlos, sofort spielbar, unvergesslich.
+      </p>
+      <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+        <a href="#" class="btn btn-primary"><i class="fas fa-gamepad"></i> Jetzt spielen</a>
+        <a href="#" class="btn btn-secondary"><i class="fab fa-discord"></i> Discord</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-wrap">
+          <div class="logo-icon">N</div>
+          <span class="logo-text">NovaMC</span>
+        </div>
+        <p class="footer-desc">Der premium Minecraft Citybuild Server. Baue deine Stadt, forme dein Erbe und werde Teil unserer Community.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="#hero">Start</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#screenshots">Screenshots</a></li>
+          <li><a href="#team">Team</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Server</h4>
+        <ul class="footer-links">
+          <li><a href="#rangliste">Rangliste</a></li>
+      <li><a href="#">Store</a></li>
+          <li><a href="#">Regeln</a></li>
+          <li><a href="#">Changelog</a></li>
+          <li><a href="#">Rangliste</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul class="footer-links">
+          <li><a href="#">Ticket erstellen</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="impressum_datenschutz.html">Datenschutz</a></li>
+          <li><a href="impressum_datenschutz.html">Impressum</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 <span>NovaMC</span>. Alle Rechte vorbehalten. Nicht mit Mojang Studios verbunden.</p>
+      <p>Mit <span>♥</span> gebaut für die Community.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ── PARTICLES
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    class Particle {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2.5 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.4;
+        this.speedY = (Math.random() - 0.5) * 0.4;
+        this.alpha = Math.random() * 0.5 + 0.1;
+        this.color = Math.random() > 0.5 ? '#FFD700' : '#8A2BE2';
+        this.pulse = Math.random() * Math.PI * 2;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.pulse += 0.02;
+        this.alpha = (Math.sin(this.pulse) * 0.2 + 0.3);
+        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+      }
+      draw() {
+        ctx.globalAlpha = this.alpha;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    for (let i = 0; i < 90; i++) particles.push(new Particle());
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // ── PARALLAX
+    document.addEventListener('mousemove', e => {
+      const mx = (e.clientX / window.innerWidth - 0.5) * 15;
+      const my = (e.clientY / window.innerHeight - 0.5) * 15;
+      document.querySelectorAll('.hero-glow').forEach(g => {
+        g.style.transform = `translate(${mx}px,${my}px)`;
+      });
+    });
+
+    // ── NAV SCROLL
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // ── HAMBURGER
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+    function closeMenu() {
+      document.getElementById('mobileMenu').classList.remove('open');
+    }
+
+    // ── COPY IP
+    function copyIP() {
+      navigator.clipboard.writeText('novamc.one');
+      const btn = document.querySelector('.copy-btn');
+      btn.innerHTML = '<i class="fas fa-check" style="color:var(--gold)"></i>';
+      setTimeout(() => btn.innerHTML = '<i class="far fa-copy"></i>', 2000);
+    }
+
+    // ── CAROUSEL
+    let currentSlide = 0;
+    const totalSlides = 4;
+    const track = document.getElementById('carouselTrack');
+    const dotsContainer = document.getElementById('carouselDots');
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.onclick = () => goToSlide(i);
+      dotsContainer.appendChild(dot);
+    }
+    function goToSlide(n) {
+      currentSlide = (n + totalSlides) % totalSlides;
+      track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      document.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+    }
+    function moveCarousel(dir) { goToSlide(currentSlide + dir); }
+    setInterval(() => moveCarousel(1), 4500);
+
+    // ── COUNT-UP
+    function countUp(el) {
+      const target = parseInt(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1800;
+      const step = target / (duration / 16);
+      let current = 0;
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.innerHTML = Math.floor(current).toLocaleString('de-DE') + `<span class="suffix">${suffix}</span>`;
+        if (current >= target) clearInterval(timer);
+      }, 16);
+    }
+
+    // ── INTERSECTION OBSERVER
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          const counter = entry.target.querySelector('[data-target]');
+          if (counter) countUp(counter);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    document.querySelectorAll('.stat-card').forEach(el => observer.observe(el));
+    
+    function switchRlTab(id, btn) {
+      document.querySelectorAll('.rl-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+  </script>
+</body>
+</html>

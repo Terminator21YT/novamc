@@ -1501,15 +1501,17 @@
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     document.querySelectorAll('.stat-card').forEach(el => observer.observe(el));
     
-    function switchRlTab(id, btn) {
-      document.querySelectorAll('.rl-tab').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
+function switchRlTab(id, btn) {
+  document.querySelectorAll('.rl-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
 
 // ══════════════════════════════════════════════════════════
 // PlaytimeTrackerPro - Auto-Sync Script für novamc.one
 // Lädt top10-total.json und updated die Rangliste automatisch
 // ══════════════════════════════════════════════════════════
+
+// Referenz für maximale Spielzeit (Platz 1)
 let maxPlaytimeMinutes = 0;
 
 async function loadRanglisteData() {
@@ -1544,22 +1546,6 @@ async function loadRanglisteData() {
     if (players.length >= 3) {
       updatePodiumPlayer(3, players[2]); // Platz 3 (Rechts)
     }
-const listRows = document.querySelectorAll('.rl-list .rl-row');
-
-// Alle Reihen erstmal „leeren“
-listRows.forEach(row => {
-  row.querySelector('.rl-name').textContent = '-';
-  row.querySelector('.rl-stat').textContent = '';
-  const barEl = row.querySelector('.rl-bar');
-  if (barEl) barEl.style.width = '0%';
-});
-
-for (let i = 3; i < Math.min(players.length, 10); i++) {
-  const rowIndex = i - 3;
-  if (listRows[rowIndex]) {
-    updateListRow(listRows[rowIndex], i + 1, players[i]);
-  }
-}
 
     // ── PLÄTZE 4-10 UPDATE ──
     const listRows = document.querySelectorAll('.rl-list .rl-row');
@@ -1589,9 +1575,6 @@ for (let i = 3; i < Math.min(players.length, 10); i++) {
     console.error('❌ Fehler beim Laden der Rangliste:', error);
   }
 }
-
-
-
 
 // Update Podium-Spieler (Top 3)
 function updatePodiumPlayer(rank, player) {
@@ -1677,7 +1660,7 @@ function updateListRow(row, rank, player) {
     statEl.innerHTML = `<i class="fas fa-clock"></i> ${player.playtime}`;
   }
 
-   // Progress-Bar updaten (basierend auf höchster Spielzeit)
+  // Progress-Bar updaten (basierend auf höchster Spielzeit)
   const barEl = row.querySelector('.rl-bar');
   if (barEl) {
     const thisMinutes = parsePlaytime(player.playtime);
@@ -1697,7 +1680,6 @@ function updateListRow(row, rank, player) {
     });
   }
 }
-
 
 // Hilfsfunktion: Konvertiere "15d 2h 30m" zu Minuten
 function parsePlaytime(timeStr) {
@@ -1734,6 +1716,7 @@ document.addEventListener('visibilitychange', () => {
     loadRanglisteData();
   }
 });
+
     
   </script>
 </body>

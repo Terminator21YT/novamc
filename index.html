@@ -114,6 +114,31 @@ nav.scrolled {
 .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.hamburger {
+  position: relative;
+  z-index: 1101;
+}
+
+/* Zustand, wenn Menü offen */
+.hamburger.open span {
+  background: var(--text); /* oder var(--gold) lassen, wie du willst */
+}
+
+/* obere Linie */
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+/* mittlere Linie ausblenden */
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+/* untere Linie */
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 
 /* ── NAV USER AREA (Player Head rechts) ── */
 .nav-user-area {
@@ -157,6 +182,59 @@ nav.scrolled {
   transition: all 0.25s;
 }
 .mobile-menu a:hover { color: var(--gold); background: rgba(255,215,0,0.07); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  right: 0;
+  background: rgba(10,10,18,0.98);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,215,0,0.1);
+  padding: 20px 5%;
+  z-index: 999;
+  flex-direction: column;
+  gap: 4px;
+  transform: translateY(-10px);
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.mobile-menu.open {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger Animation für Links */
+.mobile-menu a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 12px 16px;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.mobile-menu.open a {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* leichte Verzögerung je Link */
+.mobile-menu a:nth-child(1) { transition-delay: 0.03s; }
+.mobile-menu a:nth-child(2) { transition-delay: 0.06s; }
+.mobile-menu a:nth-child(3) { transition-delay: 0.09s; }
+.mobile-menu a:nth-child(4) { transition-delay: 0.12s; }
+.mobile-menu a:nth-child(5) { transition-delay: 0.15s; }
+.mobile-menu a:nth-child(6) { transition-delay: 0.18s; }
+.mobile-menu a:nth-child(7) { transition-delay: 0.21s; }
+.mobile-menu a:nth-child(8) { transition-delay: 0.24s; }
+
 
 /* ── MOBILE USER SECTION (unten im Menü) ── */
 .mobile-user-divider {
@@ -1556,13 +1634,20 @@ nav.scrolled {
       document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
     });
 
-    // ── HAMBURGER
-    function toggleMenu() {
-      document.getElementById('mobileMenu').classList.toggle('open');
-    }
-    function closeMenu() {
-      document.getElementById('mobileMenu').classList.remove('open');
-    }
+    //Hamburger// 
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const burger = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  burger.classList.toggle('open');
+}
+
+function closeMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const burger = document.getElementById('hamburger');
+  menu.classList.remove('open');
+  burger.classList.remove('open');
+}
 
     // ── COPY IP
     function copyIP() {

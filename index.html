@@ -1506,6 +1506,188 @@
       btn.classList.add('active');
     }
 
+// ══════════════════════════════════════════════════════════
+// PlaytimeTrackerPro - Auto-Sync Script für novamc.one
+// Lädt top10-total.json und updated die Rangliste automatisch
+// ══════════════════════════════════════════════════════════
+
+async function loadRanglisteData() {
+  try {
+    // JSON vom Server laden
+    const response = await fetch('./top10-total.json');
+    
+    if (!response.ok) {
+      console.warn('top10-total.json noch nicht verfügbar - Plugin läuft vermutlich noch nicht');
+      return;
+    }
+    
+    const players = await response.json();
+    
+    if (!players || players.length === 0) {
+      console.warn('Keine Spieler-Daten vorhanden');
+      return;
+    }
+
+    console.log('✅ Rangliste geladen:', players.length, 'Spieler');
+
+    // ── TOP 3 PODIUM UPDATE ──
+    if (players.length >= 1) {
+      updatePodiumPlayer(1, players[0]); // Platz 1 (Mitte)
+    }
+    if (players.length >= 2) {
+      updatePodiumPlayer(2, players[1]); // Platz 2 (Links)
+    }
+    if (players.length >= 3) {
+      updatePodiumPlayer(3, players[2]); // Platz 3 (Rechts)
+    }
+
+    // ── PLÄTZE 4-10 UPDATE ──
+    const listRows = document.querySelectorAll('.rl-list .rl-row');
+    for (let i = 3; i < Math.min(players.length, 10); i++) {
+      const rowIndex = i - 3; // Array-Index für die Rows (0-6 für Plätze 4-10)
+      if (listRows[rowIndex]) {
+        updateListRow(listRows[rowIndex], i + 1, players[i]);
+      }
+    }
+
+    console.log('✅ Rangliste erfolgreich aktualisiert!');
+    
+  } catch (error) {
+    console.error('❌ Fehler beim Laden der Rangliste:', error);
+  }
+}
+
+// Update Podium-Spieler (Top 3)
+function updatePodiumPlayer(rank, player) {
+  const podiumCard = document.querySelector(`.podium-${rank}`);
+  if (!podiumCard) return;
+
+  // Avatar mit Minecraft-Kopf ersetzen
+  const avatar = podiumCard.querySelector('.podium-avatar');
+  if (avatar) {
+    const size = rank === 1 ? 80 : 64;
+    const imgUrl = `https://minotar.net/helm/${player.uuid}/${size}.png`;
+    
+    // Prüfe ob bereits ein IMG existiert, sonst erstelle eins
+    let img = avatar.querySelector('img');
+    if (!img) {
+      img = document.createElement('img');
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.borderRadius = '50%';
+      img.style.objectFit = 'cover';
+      img.onerror = function() {
+        // Fallback: Emoji anzeigen wenn Bild nicht lädt
+        this.style.display = 'none';
+        avatar.innerHTML = rank === 1 ? '⭐' : (rank === 2 ? '🧱' : '🔨');
+      };
+      avatar.innerHTML = ''; // Lösche Emoji
+      avatar.appendChild(img);
+    }
+    img.src = imgUrl;
+    img.alt = player.name;
+  }
+
+  // Name updaten
+  const nameEl = podiumCard.querySelector('.podium-name');
+  if (nameEl) {
+    nameEl.textContent = player.name;
+  }
+
+  // Spielzeit updaten
+  const timeEl = podiumCard.querySelector('.podium-time');
+  if (timeEl) {
+    timeEl.innerHTML = `<i class="fas fa-clock"></i> ${player.playtime}`;
+  }
+}
+
+// Update Liste Plätze 4-10
+function updateListRow(row, rank, player) {
+  // Position updaten
+  const posEl = row.querySelector('.rl-pos');
+  if (posEl) posEl.textContent = rank;
+
+  // Avatar mit Minecraft-Kopf ersetzen
+  const avatarEl = row.querySelector('.rl-avatar');
+  if (avatarEl) {
+    const imgUrl = `https://minotar.net/helm/${player.uuid}/36.png`;
+    
+    // Prüfe ob bereits ein IMG existiert, sonst erstelle eins
+    let img = avatarEl.querySelector('img');
+    if (!img) {
+      img = document.createElement('img');
+      img.style.width = '36px';
+      img.style.height = '36px';
+      img.style.borderRadius = '50%';
+      img.onerror = function() {
+        // Fallback: Emoji anzeigen
+        const emojis = ['🏗️', '🏠', '🌆', '⚒️', '🔧', '🏡', '🌇'];
+        this.outerHTML = emojis[rank - 4] || '🎮';
+      };
+      avatarEl.innerHTML = '';
+      avatarEl.appendChild(img);
+    }
+    img.src = imgUrl;
+    img.alt = player.name;
+  }
+
+  // Name updaten
+  const nameEl = row.querySelector('.rl-name');
+  if (nameEl) nameEl.textContent = player.name;
+
+  // Spielzeit updaten
+  const statEl = row.querySelector('.rl-stat');
+  if (statEl) {
+    statEl.innerHTML = `<i class="fas fa-clock"></i> ${player.playtime}`;
+  }
+
+  // Progress-Bar updaten (basierend auf höchster Spielzeit)
+  const barEl = row.querySelector('.rl-bar');
+  if (barEl) {
+    // Berechne Prozent relativ zur höchsten Spielzeit
+    // Nimm an dass Platz 1 = 100%
+    const maxMinutes = parsePlaytime(player.playtime);
+    const percentage = Math.max(15, Math.min(100, (maxMinutes / parsePlaytime(player.playtime)) * (100 - (rank - 1) * 10)));
+    barEl.style.width = percentage + '%';
+  }
+}
+
+// Hilfsfunktion: Konvertiere "15d 2h 30m" zu Minuten
+function parsePlaytime(timeStr) {
+  const dMatch = timeStr.match(/(\d+)d/);
+  const hMatch = timeStr.match(/(\d+)h/);
+  const mMatch = timeStr.match(/(\d+)m/);
+  
+  const days = dMatch ? parseInt(dMatch[1]) : 0;
+  const hours = hMatch ? parseInt(hMatch[1]) : 0;
+  const minutes = mMatch ? parseInt(mMatch[1]) : 0;
+  
+  return days * 1440 + hours * 60 + minutes;
+}
+
+// ── AUTO-LOAD & AUTO-REFRESH ──
+
+// Initial laden wenn Seite fertig ist
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('🚀 PlaytimeTrackerPro Auto-Sync gestartet');
+  loadRanglisteData();
+});
+
+// Auto-Refresh alle 5 Minuten (300000ms)
+// Synchron mit dem Plugin-Export (alle 5 Min)
+setInterval(() => {
+  console.log('🔄 Rangliste wird aktualisiert...');
+  loadRanglisteData();
+}, 5 * 60 * 1000); // 5 Minuten
+
+// Optional: Auch bei Tab-Focus neu laden
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) {
+    console.log('👁️ Tab wieder aktiv - Rangliste neu laden');
+    loadRanglisteData();
+  }
+});
+    
   </script>
 </body>
 </html>

@@ -1514,7 +1514,7 @@
 async function loadRanglisteData() {
   try {
     // JSON vom Server laden
-    const response = await fetch('./top10-total.json');
+    const response = await fetch('https://playtime-sync.novamc26.workers.dev/top10');
     
     if (!response.ok) {
       console.warn('top10-total.json noch nicht verfügbar - Plugin läuft vermutlich noch nicht');

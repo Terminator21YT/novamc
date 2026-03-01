@@ -1510,6 +1510,7 @@
 // PlaytimeTrackerPro - Auto-Sync Script für novamc.one
 // Lädt top10-total.json und updated die Rangliste automatisch
 // ══════════════════════════════════════════════════════════
+let maxPlaytimeMinutes = 0;
 
 async function loadRanglisteData() {
   try {
@@ -1529,6 +1530,9 @@ async function loadRanglisteData() {
     }
 
     console.log('✅ Rangliste geladen:', players.length, 'Spieler');
+
+    // Platz 1 als 100%-Referenz für Balken setzen
+    maxPlaytimeMinutes = parsePlaytime(players[0].playtime);
 
     // ── TOP 3 PODIUM UPDATE ──
     if (players.length >= 1) {
@@ -1556,6 +1560,9 @@ async function loadRanglisteData() {
     console.error('❌ Fehler beim Laden der Rangliste:', error);
   }
 }
+
+
+
 
 // Update Podium-Spieler (Top 3)
 function updatePodiumPlayer(rank, player) {
@@ -1641,16 +1648,27 @@ function updateListRow(row, rank, player) {
     statEl.innerHTML = `<i class="fas fa-clock"></i> ${player.playtime}`;
   }
 
-  // Progress-Bar updaten (basierend auf höchster Spielzeit)
+   // Progress-Bar updaten (basierend auf höchster Spielzeit)
   const barEl = row.querySelector('.rl-bar');
   if (barEl) {
-    // Berechne Prozent relativ zur höchsten Spielzeit
-    // Nimm an dass Platz 1 = 100%
-    const maxMinutes = parsePlaytime(player.playtime);
-    const percentage = Math.max(15, Math.min(100, (maxMinutes / parsePlaytime(player.playtime)) * (100 - (rank - 1) * 10)));
-    barEl.style.width = percentage + '%';
+    const thisMinutes = parsePlaytime(player.playtime);
+
+    let percentage = 100;
+    if (maxPlaytimeMinutes > 0) {
+      percentage = (thisMinutes / maxPlaytimeMinutes) * 100;
+    }
+
+    // Min 10 %, Max 100 %
+    percentage = Math.max(10, Math.min(100, percentage));
+
+    // Animation: erst 0 %, dann Zielwert
+    barEl.style.width = '0%';
+    requestAnimationFrame(() => {
+      barEl.style.width = percentage + '%';
+    });
   }
 }
+
 
 // Hilfsfunktion: Konvertiere "15d 2h 30m" zu Minuten
 function parsePlaytime(timeStr) {

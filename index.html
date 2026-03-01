@@ -1544,11 +1544,40 @@ async function loadRanglisteData() {
     if (players.length >= 3) {
       updatePodiumPlayer(3, players[2]); // Platz 3 (Rechts)
     }
+const listRows = document.querySelectorAll('.rl-list .rl-row');
+
+// Alle Reihen erstmal „leeren“
+listRows.forEach(row => {
+  row.querySelector('.rl-name').textContent = '-';
+  row.querySelector('.rl-stat').textContent = '';
+  const barEl = row.querySelector('.rl-bar');
+  if (barEl) barEl.style.width = '0%';
+});
+
+for (let i = 3; i < Math.min(players.length, 10); i++) {
+  const rowIndex = i - 3;
+  if (listRows[rowIndex]) {
+    updateListRow(listRows[rowIndex], i + 1, players[i]);
+  }
+}
 
     // ── PLÄTZE 4-10 UPDATE ──
     const listRows = document.querySelectorAll('.rl-list .rl-row');
+
+    // Erst alle Reihen leeren
+    listRows.forEach(row => {
+      const nameEl = row.querySelector('.rl-name');
+      const statEl = row.querySelector('.rl-stat');
+      const barEl = row.querySelector('.rl-bar');
+
+      if (nameEl) nameEl.textContent = 'Kein Spieler';
+      if (statEl) statEl.textContent = '';
+      if (barEl) barEl.style.width = '0%';
+    });
+
+    // Dann vorhandene Spieler eintragen
     for (let i = 3; i < Math.min(players.length, 10); i++) {
-      const rowIndex = i - 3; // Array-Index für die Rows (0-6 für Plätze 4-10)
+      const rowIndex = i - 3; // 0–6 für Plätze 4–10
       if (listRows[rowIndex]) {
         updateListRow(listRows[rowIndex], i + 1, players[i]);
       }

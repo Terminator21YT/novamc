@@ -2124,13 +2124,12 @@ async function loadRanglisteToday() {
 }
 
 // ===== Tab-Wechsel =====
-function switchRlTab(mode) {
-  const tabAll = document.getElementById('rl-tab-alltime');
-  const tabToday = document.getElementById('rl-tab-today');
-  if (!tabAll || !tabToday) return;
+function switchRlTab(mode, btn) {
+  console.log('Tab-Klick:', mode); // Debug
 
-  tabAll.classList.toggle('active', mode === 'alltime');
-  tabToday.classList.toggle('active', mode === 'today');
+  const tabs = document.querySelectorAll('.rl-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
 
   if (mode === 'today') {
     loadRanglisteToday();
@@ -2139,7 +2138,7 @@ function switchRlTab(mode) {
   }
 }
 
-// ===== Auto-Load & Auto-Refresh =====
+// ===== Auto-Load nur Alltime beim Start =====
 document.addEventListener('DOMContentLoaded', () => {
   console.log('🚀 Rangliste Auto-Sync gestartet (Alltime zuerst)');
   loadRanglisteAlltime();

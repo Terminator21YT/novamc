@@ -1873,8 +1873,8 @@ function updateListRow(row, rank, player) {
       img.style.height = '36px';
       img.style.borderRadius = '50%';
       img.onerror = function() {
-        const emojis = ['🏗️', '🏠', '🌆', '⚒️', '🔧', '🏡', '🌇'];
-        this.outerHTML = emojis[rank - 4] || '🎮';
+        const emojis = ['⛔', '⛔', '⛔', '⛔', '⛔', '⛔', '⛔'];
+        this.outerHTML = emojis[rank - 4] || '⛔';
       };
       avatarEl.innerHTML = '';
       avatarEl.appendChild(img);

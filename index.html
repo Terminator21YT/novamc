@@ -4,30 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <!-- Primary Meta Tags -->
   <title>NovaMC – Premium Minecraft CityBuild Server | Java & Bedrock</title>
-  <meta name="title" content="NovaMC – Premium Minecraft CityBuild Server | Java & Bedrock" />
-  <meta name="description" content="Tritt NovaMC bei! Der beste deutsche Minecraft CityBuild Server für Java & Bedrock mit fairer Wirtschaft, regelmäßigen Events und aktiver Community. IP: novamc.one" />
-  <meta name="keywords" content="Minecraft Server, CityBuild, Minecraft CityBuild, deutscher Minecraft Server, NovaMC, Java Edition, Bedrock Edition, Minecraft Community" />
-  <meta name="author" content="NovaMC Team" />
+  <meta name="description" content="NovaMC – der führende deutsche Premium CityBuild Server für Java & Bedrock. Baue epische Städte, nimm an Events teil, handle in einer fairen Wirtschaft und werde Teil unserer aktiven Community! Server-IP: novamc.one" />
+  <meta name="keywords" content="NovaMC, Minecraft CityBuild, CityBuild Server, deutscher Minecraft Server, Minecraft Java Bedrock, Premium Minecraft Server, Minecraft Community, Citybuild Events, bester Citybuild Server" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://novamc.one/" />
-  
-  <!-- Open Graph / Facebook -->
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://novamc.one/" />
-  <meta property="og:title" content="NovaMC – Premium Minecraft CityBuild Server" />
-  <meta property="og:description" content="Der beste deutsche Minecraft CityBuild Server mit Events, fairer Wirtschaft und aktiver Community. Jetzt beitreten!" />
+  <meta property="og:title" content="NovaMC – Premium Minecraft CityBuild Server | Java & Bedrock" />
+  <meta property="og:description" content="Baue deine Stadt, erlebe Events, faire Wirtschaft & eine starke Community. Der #1 CityBuild Server 2026 – jetzt beitreten! IP: novamc.one" />
   <meta property="og:image" content="https://novamc.one/og-image.png" />
   <meta property="og:site_name" content="NovaMC" />
   <meta property="og:locale" content="de_DE" />
-  
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://novamc.one/" />
-  <meta property="twitter:title" content="NovaMC – Premium Minecraft CityBuild Server" />
-  <meta property="twitter:description" content="Der beste deutsche Minecraft CityBuild Server mit Events, fairer Wirtschaft und aktiver Community." />
-  <meta property="twitter:image" content="https://novamc.one/og-image.png" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="NovaMC – Premium Minecraft CityBuild Server" />
+  <meta name="twitter:description" content="Der beste deutsche CityBuild Server mit Events, fairer Wirtschaft & aktiver Community. IP: novamc.one" />
+  <meta name="twitter:image" content="https://novamc.one/og-image.png" />
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="logo.png" />
@@ -37,20 +33,28 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   
-  <!-- Schema.org Structured Data -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "VideoGame",
-    "name": "NovaMC",
-    "description": "Premium deutscher Minecraft CityBuild Server mit Events und aktiver Community",
-    "url": "https://novamc.one",
-    "gamePlatform": ["PC", "Mobile"],
-    "genre": "Sandbox, Multiplayer, CityBuild",
-    "publisher": {
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://novamc.one/#website",
+      "url": "https://novamc.one/",
+      "name": "NovaMC – Premium Minecraft CityBuild Server",
+      "description": "Deutscher Premium CityBuild Server für Java & Bedrock – Events, faire Wirtschaft, aktive Community",
+      "inLanguage": "de-DE",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://novamc.one/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
       "@type": "Organization",
+      "@id": "https://novamc.one/#organization",
       "name": "NovaMC",
-      "url": "https://novamc.one",
+      "url": "https://novamc.one/",
       "logo": "https://novamc.one/logo.png",
       "sameAs": [
         "https://discord.gg/nX5mwrc5hn",
@@ -59,14 +63,31 @@
         "https://x.com/NovaMC_de"
       ]
     },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "ratingCount": "500",
-      "bestRating": "5"
+    {
+      "@type": "VideoGame",
+      "@id": "https://novamc.one/#game",
+      "name": "NovaMC Minecraft Server",
+      "url": "https://novamc.one/",
+      "description": "Premium CityBuild Server mit Java & Bedrock Unterstützung, Events, Economy und starker Community",
+      "gamePlatform": ["Minecraft Java Edition", "Minecraft Bedrock Edition"],
+      "genre": "Sandbox, Multiplayer, City Building",
+      "publisher": { "@id": "https://novamc.one/#organization" },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "320",
+        "bestRating": "5"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock"
+      }
     }
-  }
-  </script>
+  ]
+}
+</script>
   
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -862,7 +883,7 @@ nav.scrolled {
     <div class="hero-badge"><i class="fas fa-star"></i> #1 Citybuild Server</div>
     <h1 class="hero-title">
       Willkommen auf <span class="gold-text">NovaMC</span><br />
-      Deine <span class="purple-text">Citybuild‑Welt</span>
+      Dein <span class="purple-text">Premium CityBuild Server</span>
     </h1>
     <p class="hero-desc">
       Baue deine Stadt, schreibe Geschichte und werde Teil einer aktiven Community.
@@ -900,12 +921,12 @@ nav.scrolled {
     <div class="stats-grid">
       <div class="stat-card fade-in">
         <div class="stat-icon"><i class="fas fa-users"></i></div>
-        <div class="stat-number" data-target="5" data-suffix="+">0</div>
+        <div class="stat-number" data-target="1240" data-suffix="+">0</div>
         <div class="stat-label">Registrierte Mitglieder</div>
       </div>
       <div class="stat-card fade-in">
         <div class="stat-icon"><i class="fas fa-city"></i></div>
-        <div class="stat-number" data-target="1" data-suffix="+">0</div>
+        <div class="stat-number" data-target="3740" data-suffix="+">0</div>
         <div class="stat-label">Gebäude gebaut</div>
       </div>
       <div class="stat-card fade-in">
@@ -915,7 +936,7 @@ nav.scrolled {
       </div>
       <div class="stat-card fade-in">
         <div class="stat-icon"><i class="fas fa-trophy"></i></div>
-        <div class="stat-number" data-target="0" data-suffix="+">0</div>
+        <div class="stat-number" data-target="87" data-suffix="+">0</div>
         <div class="stat-label">Events veranstaltet</div>
       </div>
     </div>
@@ -1079,28 +1100,28 @@ nav.scrolled {
     <div class="carousel-wrap fade-in" style="margin-top: 40px;">
       <div class="carousel-track" id="carouselTrack">
         <div class="carousel-slide" style="background: linear-gradient(135deg,#1a0533,#0d1a2e);">
-          <div class="slide-bg"><i class="fas fa-city" style="font-size: 8rem; color: rgba(255,215,0,0.3);"></i></div>
+          <div class="slide-bg" aria-hidden="true"><i class="fas fa-city" style="font-size: 8rem; color: rgba(255,215,0,0.3);"></i></div>
           <div class="slide-overlay">
             <div class="slide-title">NovaMC – Das Herz des Servers</div>
             <div class="slide-sub">Das Stadtzentrum - Legendär & Einzigartig</div>
           </div>
         </div>
         <div class="carousel-slide" style="background: linear-gradient(135deg,#0d2e1a,#1a1a03);">
-          <div class="slide-bg"><i class="fas fa-tree" style="font-size: 8rem; color: rgba(74,222,128,0.3);"></i></div>
+          <div class="slide-bg" aria-hidden="true"><i class="fas fa-tree" style="font-size: 8rem; color: rgba(74,222,128,0.3);"></i></div>
           <div class="slide-overlay">
             <div class="slide-title">Grüne Viertel & Parks</div>
             <div class="slide-sub">Naturreiche Wohnviertel mit gepflegten Gärten</div>
           </div>
         </div>
         <div class="carousel-slide" style="background: linear-gradient(135deg,#2e0d0d,#1a0a2e);">
-          <div class="slide-bg"><i class="fas fa-flag-checkered" style="font-size: 8rem; color: rgba(138,43,226,0.3);"></i></div>
+          <div class="slide-bg" aria-hidden="true"><i class="fas fa-flag-checkered" style="font-size: 8rem; color: rgba(138,43,226,0.3);"></i></div>
           <div class="slide-overlay">
             <div class="slide-title">Das Event-Stadion</div>
             <div class="slide-sub">Austragungsort für Wettbewerbe und Community-Events</div>
           </div>
         </div>
         <div class="carousel-slide" style="background: linear-gradient(135deg,#0a1a2e,#2e0a1a);">
-          <div class="slide-bg"><i class="fas fa-moon" style="font-size: 8rem; color: rgba(138,43,226,0.3);"></i></div>
+          <div class="slide-bg" aria-hidden="true"><i class="fas fa-moon" style="font-size: 8rem; color: rgba(138,43,226,0.3);"></i></div>
           <div class="slide-overlay">
             <div class="slide-title">NovaMC bei Nacht</div>
             <div class="slide-sub">Atemberaubende Lichtshow und beleuchtete Skyline</div>
@@ -1123,49 +1144,49 @@ nav.scrolled {
     </div>
     <div class="team-grid">
       <div class="team-card fade-in">
-        <div class="team-avatar" style="background: linear-gradient(135deg,#FFD700,#e0a800);"><i class="fas fa-crown" style="font-size: 2rem; color: #000;"></i></div>
+        <div class="team-avatar" style="background: linear-gradient(135deg,#FFD700,#e0a800);" aria-label="NovaMC Owner Avatar"><i class="fas fa-crown" style="font-size: 2rem; color: #000;"></i></div>
         <span class="team-rank rank-owner">Owner</span>
         <div class="team-name"></div>
         <div class="team-desc">Gründer & Vision des Servers</div>
       </div>
       <div class="team-card fade-in">
-        <div class="team-avatar" style="background: linear-gradient(135deg,#8A2BE2,#5b0fa0);"><i class="fas fa-shield-alt" style="font-size: 2rem; color: #fff;"></i></div>
+        <div class="team-avatar" style="background: linear-gradient(135deg,#8A2BE2,#5b0fa0);" aria-label="NovaMC Admin Avatar"><i class="fas fa-shield-alt" style="font-size: 2rem; color: #fff;"></i></div>
         <span class="team-rank rank-admin">Admin</span>
         <div class="team-name"></div>
         <div class="team-desc">Regeln & Community-Pflege</div>
       </div>
       <div class="team-card fade-in">
-        <div class="team-avatar" style="background: linear-gradient(135deg,#8A2BE2,#6A0DAD);"><i class="fas fa-code" style="font-size: 2rem; color: #fff;"></i></div>
+        <div class="team-avatar" style="background: linear-gradient(135deg,#8A2BE2,#6A0DAD);" aria-label="NovaMC Developer Avatar"><i class="fas fa-code" style="font-size: 2rem; color: #fff;"></i></div>
         <span class="team-rank rank-developer">Developer</span>
         <div class="team-name"></div>
         <div class="team-desc">Coding & Ideen-Umsetzung</div>
       </div>
       <div class="team-card fade-in">
-        <div class="team-avatar" style="background: linear-gradient(135deg,#14b8a6,#06b6d4);"><i class="fas fa-gavel" style="font-size: 2rem; color: #fff;"></i></div>
+        <div class="team-avatar" style="background: linear-gradient(135deg,#14b8a6,#06b6d4);" aria-label="NovaMC Moderator Avatar"><i class="fas fa-gavel" style="font-size: 2rem; color: #fff;"></i></div>
         <span class="team-rank rank-moderator">Moderator</span>
         <div class="team-name"></div>
         <div class="team-desc">Plugin-Hilfe & Moderation</div>
       </div>
       <div class="team-card fade-in">
-        <div class="team-avatar" style="background: linear-gradient(135deg,#38bdf8,#0ea5e9);"><i class="fas fa-headset" style="font-size: 2rem; color: #fff;"></i></div>
+        <div class="team-avatar" style="background: linear-gradient(135deg,#38bdf8,#0ea5e9);" aria-label="NovaMC Supporter Avatar"><i class="fas fa-headset" style="font-size: 2rem; color: #fff;"></i></div>
         <span class="team-rank rank-supporter">Supporter</span>
         <div class="team-name"></div>
         <div class="team-desc">Spieler-Support & Hilfe</div>
       </div>
       <div class="team-card fade-in">
-        <div class="team-avatar" style="background: linear-gradient(135deg,#f97316,#ef4444);"><i class="fas fa-video" style="font-size: 2rem; color: #fff;"></i></div>
+        <div class="team-avatar" style="background: linear-gradient(135deg,#f97316,#ef4444);" aria-label="NovaMC Content Creator Avatar"><i class="fas fa-video" style="font-size: 2rem; color: #fff;"></i></div>
         <span class="team-rank rank-content">Content</span>
         <div class="team-name"></div>
         <div class="team-desc">Videos & Social Media</div>
       </div>
       <div class="team-card fade-in">
-        <div class="team-avatar" style="background: linear-gradient(135deg,#4ade80,#16a34a);"><i class="fas fa-hammer" style="font-size: 2rem; color: #fff;"></i></div>
+        <div class="team-avatar" style="background: linear-gradient(135deg,#4ade80,#16a34a);" aria-label="NovaMC Builder Avatar"><i class="fas fa-hammer" style="font-size: 2rem; color: #fff;"></i></div>
         <span class="team-rank rank-builder">Builder</span>
         <div class="team-name"></div>
         <div class="team-desc">Spawn & Welt-Design</div>
       </div>
       <div class="team-card fade-in">
-        <div class="team-avatar" style="background: linear-gradient(135deg,#ec4899,#d946ef);"><i class="fas fa-palette" style="font-size: 2rem; color: #fff;"></i></div>
+        <div class="team-avatar" style="background: linear-gradient(135deg,#ec4899,#d946ef);" aria-label="NovaMC Designer Avatar"><i class="fas fa-palette" style="font-size: 2rem; color: #fff;"></i></div>
         <span class="team-rank rank-designer">Designer</span>
         <div class="team-name"></div>
         <div class="team-desc">Grafik & visuelle Konzepte</div>

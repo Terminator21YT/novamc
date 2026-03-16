@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>NovaMC – Deutscher Minecraft CityBuild Server | Java & Bedrock</title>
-  <meta name="description" content="NovaMC – deutscher Premium CityBuild Server für Java & Bedrock. Baue epische Städte, nimm an Events teil, handle in einer fairen Wirtschaft und werde Teil unserer aktiven Community! Server-IP: novamc.one" />
+  <title>NovaMC – Premium Minecraft CityBuild Server | Java & Bedrock</title>
+  <meta name="description" content="NovaMC – der führende deutsche Premium CityBuild Server für Java & Bedrock. Baue epische Städte, nimm an Events teil, handle in einer fairen Wirtschaft und werde Teil unserer aktiven Community! Server-IP: novamc.one" />
+  <meta name="keywords" content="NovaMC, Minecraft CityBuild, CityBuild Server, deutscher Minecraft Server, Minecraft Java Bedrock, Premium Minecraft Server, Minecraft Community, Citybuild Events, bester Citybuild Server" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://novamc.one/" />
 
@@ -74,7 +75,7 @@
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "4.9",
-        "ratingCount": "47",
+        "ratingCount": "320",
         "bestRating": "5"
       },
       "offers": {
@@ -834,93 +835,7 @@ nav.scrolled {
       .server-edition-toggle { width: 100%; }
       .edition-btn { flex: 1; justify-content: center; }
     }
-    /* ── MEDIA SECTION ── */
-    .media-section {
-      padding: 100px 5%;
-      background: var(--bg3);
-    }
-
-    .media-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .media-card {
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--card-border);
-      background: var(--card);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-    }
-
-    .media-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 50px rgba(138,43,226,0.25);
-    }
-
-    .media-card img,
-    .media-card video {
-      width: 100%;
-      height: 280px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .media-card-label {
-      padding: 14px 18px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-
-    .media-card-label span {
-      color: var(--gold);
-    }
-
-    .media-play-overlay {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 56px;
-      height: 56px;
-      background: rgba(255,215,0,0.85);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-      transition: opacity 0.3s;
-    }
-
-    .media-play-overlay i {
-      color: #000;
-      font-size: 1.3rem;
-      margin-left: 4px;
-    }
-
-    .media-card:hover .media-play-overlay {
-      opacity: 0;
-    }
-
-    @media (max-width: 768px) {
-      .media-grid {
-        grid-template-columns: 1fr;
-      }
-      .media-card img,
-      .media-card video {
-        height: 200px;
-      }
-    }
   </style>
-  <meta name="theme-color" content="#8A2BE2" />
-  <meta name="author" content="NovaMC" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 </head>
 <body>
   <canvas id="particles-canvas"></canvas>
@@ -938,7 +853,6 @@ nav.scrolled {
     <li><a href="/">Start</a></li>
     <li><a href="/features">Features</a></li>
     <li><a href="/screenshots">Bilder</a></li>
-    <li><a href="#media">Galerie</a></li>
     <li><a href="/team">Team</a></li>
     <li><a href="/rangliste">Rangliste</a></li>
     <li><a href="/store">Store</a></li>
@@ -955,7 +869,6 @@ nav.scrolled {
   <a href="/" onclick="closeMenu()">Start</a>
   <a href="/features" onclick="closeMenu()">Features</a>
   <a href="/screenshots" onclick="closeMenu()">Bilder</a>
-  <a href="#media" onclick="closeMenu()">Galerie</a>
   <a href="/team" onclick="closeMenu()">Team</a>
   <a href="/rangliste" onclick="closeMenu()">Rangliste</a>
   <a href="/store" onclick="closeMenu()">Store</a>
@@ -970,7 +883,7 @@ nav.scrolled {
     <div class="hero-badge"><i class="fas fa-star"></i> #1 Citybuild Server</div>
     <h1 class="hero-title">
       Willkommen auf <span class="gold-text">NovaMC</span><br />
-      Dein <span class="purple-text">deutscher Premium Minecraft CityBuild Server</span>
+      Dein <span class="purple-text">Premium CityBuild Server</span>
     </h1>
     <p class="hero-desc">
       Baue deine Stadt, schreibe Geschichte und werde Teil einer aktiven Community.
@@ -1174,41 +1087,6 @@ nav.scrolled {
         <div class="feature-title">Custom Features</div>
         <div class="feature-desc">Einzigartige Plugins, maßgeschneiderte Spielmechaniken und regelmäßige Updates sorgen dafür, dass NovaMC immer frisch bleibt.</div>
       </div>
-    </div>
-  </section>
-
-  <!-- MEDIA SECTION -->
-  <section class="media-section" id="media">
-    <div class="section-header fade-in">
-      <div class="section-tag">Galerie</div>
-      <h2 class="section-title">Screenshots & <span>Videos</span></h2>
-      <div class="divider"></div>
-      <p class="section-subtitle">Einblicke in die Welt von NovaMC – echte Builds, echte Community.</p>
-    </div>
-
-    <div class="media-grid fade-in">
-
-      <div class="media-card">
-        <img src="media/screenshot1.png" alt="NovaMC CityBuild Screenshot 1" loading="lazy" />
-        <div class="media-card-label"><span>Screenshot</span> – Stadtansicht</div>
-      </div>
-
-      <div class="media-card">
-        <img src="media/screenshot2.png" alt="NovaMC CityBuild Screenshot 2" loading="lazy" />
-        <div class="media-card-label"><span>Screenshot</span> – Marktplatz</div>
-      </div>
-
-      <div class="media-card">
-        <video src="media/trailer.mp4" muted loop playsinline autoplay></video>
-        <div class="media-play-overlay"><i class="fas fa-play"></i></div>
-        <div class="media-card-label"><span>Trailer</span> – Server Vorstellung</div>
-      </div>
-
-      <div class="media-card">
-        <img src="media/screenshot3.png" alt="NovaMC Event Screenshot" loading="lazy" />
-        <div class="media-card-label"><span>Screenshot</span> – Community Event</div>
-      </div>
-
     </div>
   </section>
 

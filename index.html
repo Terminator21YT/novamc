@@ -1090,7 +1090,7 @@ nav.scrolled {
     </div>
   </section>
 
-  <!-- SCREENSHOTS -->
+  <!-- Media -->
   <section id="screenshots" style="padding: 80px 5%; background: var(--bg2);">
     <div class="section-header fade-in">
       <div class="section-tag">Gallery</div>
@@ -1118,16 +1118,23 @@ nav.scrolled {
           <div class="slide-overlay">
             <div class="slide-title">Das Event-Stadion</div>
             <div class="slide-sub">Austragungsort für Wettbewerbe und Community-Events</div>
-          </div>
-        </div>
-        <div class="carousel-slide" style="background: linear-gradient(135deg,#0a1a2e,#2e0a1a);">
-          <div class="slide-bg" aria-hidden="true"><i class="fas fa-moon" style="font-size: 8rem; color: rgba(138,43,226,0.3);"></i></div>
-          <div class="slide-overlay">
-            <div class="slide-title">NovaMC bei Nacht</div>
-            <div class="slide-sub">Atemberaubende Lichtshow und beleuchtete Skyline</div>
-          </div>
-        </div>
-      </div>
+<div class="carousel-slide" style="background: linear-gradient(135deg,#0a1a2e,#2e0a1a);">
+  <div class="slide-bg" aria-hidden="true"><i class="fas fa-moon" style="font-size:8rem;color:rgba(138,43,226,0.3);"></i></div>
+  <div class="slide-overlay">
+    <div class="slide-title">NovaMC bei Nacht</div>
+    <div class="slide-sub">Atemberaubende Lichtshow und beleuchtete Skyline</div>
+
+
+    <video id="bgVideo" muted playsinline style="width:100%;height:auto;display:block;margin-top:1rem;">
+      <source src="Video.mp4" type="video/mp4">
+      Ihr Browser unterstützt das Video‑Tag nicht.
+    </video>
+
+
+    <button id="soundToggle" style="margin-top:0.5rem;">Sound aktivieren</button>
+  </div>
+</div>
+
       <button class="carousel-btn prev" onclick="moveCarousel(-1)"><i class="fas fa-chevron-left"></i></button>
       <button class="carousel-btn next" onclick="moveCarousel(1)"><i class="fas fa-chevron-right"></i></button>
     </div>
